@@ -17,6 +17,7 @@ export const Timer: FC<{
   }, []);
 
   return <>
+    <Row>-----Timer-----</Row>
     <Row>Starting with {startSeconds} seconds</Row>
     <Row>Currently {seconds} seconds </Row>
   </>;

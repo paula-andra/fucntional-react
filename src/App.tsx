@@ -4,10 +4,10 @@ import { BrowserRouter, Navigate } from 'react-router-dom';
 import { Route, Routes } from 'react-router-dom';
 import React from 'react';
 
-import { Example } from './pages/example/Example';
+import { Examples } from './pages/examples/Examples';
 import { Home } from './pages/home/Home';
-import { Users } from './pages/users/Users';
-import { UsersProvider } from './pages/users/components/UsersContext';
+import { UsersProvider } from './pages/exercises/Exercise4/components/UsersContext';
+import { Exercises } from './pages/exercises/Exercises';
 
 const App: FC = () => {
   return (
@@ -15,8 +15,8 @@ const App: FC = () => {
       <BrowserRouter>
         <UsersProvider>
           <Routes>
-            <Route path={`/example/*`} element={<Example/>}/>
-            <Route path={`/users/*`} element={<Users/>}/>
+            <Route path={`/examples/*`} element={<Examples/>}/>
+            <Route path={`/exercises/*`} element={<Exercises/>}/>
             <Route path={`/home`} element={<Home/>}/>
             <Route path={`/*`} element={<Navigate to={'/home'}/>}/>
           </Routes>
