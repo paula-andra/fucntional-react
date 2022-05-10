@@ -5,8 +5,8 @@ import { getAllTextsInOrderOfAppearanceContainingAnyOf } from '../../../__utils_
 
 import { List } from './List';
 
-// TODO: fix the tests
-// hint: useState - how to update state
+// TODO: fix the tests by fixing the production code; the tests shouldn't be touched
+// hint: useState - how to update state dependent on previous state
 
 test('add entry', () => {
   render(<List/>);

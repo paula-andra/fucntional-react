@@ -1,11 +1,8 @@
 import { act, render, screen } from '@testing-library/react';
 
+import { TimerWithHook } from './TimerWithHook';
 
-import { Timer } from './Timer';
-
-
-// TODO: fix the tests
-// hint: useEffect - cleanup documentation https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
+// TODO: Adapt tests from Timer for useTimer hook, based on Example3 (useCounter)
 
 beforeAll(() => {
     jest.useFakeTimers('modern');
@@ -25,7 +22,7 @@ const testCountsStartingWithCurrentSeconds = (startSeconds: number, times: numbe
 };
 
 test('starts with 0 seconds and counts every second', () => {
-  render(<Timer/>);
+  render(<TimerWithHook/>);
 
   expect(screen.getByText('Starting with 0 seconds')).toBeInTheDocument();
   expect(screen.getByText('Currently 0 seconds')).toBeInTheDocument();
@@ -35,7 +32,7 @@ test('starts with 0 seconds and counts every second', () => {
 
 
 test('starts with the initialized number of seconds and counts every second', () => {
-  render(<Timer startSeconds={5}/>);
+  render(<TimerWithHook startSeconds={5}/>);
 
   expect(screen.getByText('Starting with 5 seconds')).toBeInTheDocument();
   expect(screen.getByText('Currently 5 seconds')).toBeInTheDocument();
@@ -45,14 +42,14 @@ test('starts with the initialized number of seconds and counts every second', ()
 
 
 test('resets the counter when changing the start seconds property', () => {
-  const { rerender } = render(<Timer startSeconds={5}/>);
+  const { rerender } = render(<TimerWithHook startSeconds={5}/>);
 
   expect(screen.getByText('Starting with 5 seconds')).toBeInTheDocument();
   expect(screen.getByText('Currently 5 seconds')).toBeInTheDocument();
 
   testCountsStartingWithCurrentSeconds(5, 5);
 
-  rerender(<Timer startSeconds={0}/>);
+  rerender(<TimerWithHook startSeconds={0}/>);
 
   expect(screen.getByText('Starting with 0 seconds')).toBeInTheDocument();
   expect(screen.getByText('Currently 0 seconds')).toBeInTheDocument();

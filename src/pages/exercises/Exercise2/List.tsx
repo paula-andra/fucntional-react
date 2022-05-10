@@ -11,7 +11,8 @@ export const List: VFC = () => {
   const sortEntries = () => setEntries([...entries.sort()]);
 
   return <>
-    {entries.map((entry, index) =>
+    <Row>-----List----</Row>
+    {entries.map((entry) =>
       <Row>
         {entry}
         <button>Remove entry</button>

@@ -6,7 +6,7 @@ import {
   getAllInOrderOfAppearanceContainingAnyOf,
   getAllTextsInOrderOfAppearanceContainingAnyOf,
   queryAllInOrderOfAppearanceContainingAnyOf,
-} from '../../__utils__/testing-queries-helpers';
+} from '../../../__utils__/testing-queries-helpers';
 
 import { Users } from './Users';
 import { UsersProvider } from './components/UsersContext';
