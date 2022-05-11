@@ -6,16 +6,23 @@ export const List: VFC = () => {
   const [entries, setEntries] = useState<string[]>([]);
   const [entry, setEntry] = useState<string>('');
 
-  const addEntry = () => setEntries([...entries, entry]);
+  const removeEntryAtIndex = (index: number) => () =>
+    setEntries(currentEntries => {
+      const entriesCopy = [...currentEntries];
+      entriesCopy.splice(index, 1);
+      return entriesCopy;
+    });
 
-  const sortEntries = () => setEntries([...entries.sort()]);
+  const addEntry = () => setEntries(currentEntries => [...currentEntries, entry]);
+
+  const sortEntries = () => setEntries(currentEntries => [...currentEntries.sort()]);
 
   return <>
     <Row>-----List----</Row>
-    {entries.map((entry) =>
-      <Row>
+    {entries.map((entry, index) =>
+      <Row key={index}>
         {entry}
-        <button>Remove entry</button>
+        <button onClick={removeEntryAtIndex(index)}>Remove entry</button>
       </Row>)
     }
     <Row>

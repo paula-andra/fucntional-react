@@ -11,10 +11,14 @@ export const Timer: FC<{
 
 
   useEffect(() => {
-    setInterval(() => {
+    setSeconds(startSeconds);
+    const interval = setInterval(() => {
       setSeconds(seconds => seconds + 1);
     }, 1000);
-  }, []);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [startSeconds]);
 
   return <>
     <Row>-----Timer-----</Row>
