@@ -1,58 +1,48 @@
-import { act, render, screen } from '@testing-library/react';
+import { act } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
+import { RenderResult } from '@testing-library/react-hooks/src/types';
 
-import { TimerWithHook } from './TimerWithHook';
-
-// TODO: Adapt tests from Timer for useTimer hook, based on Example3 (useCounter)
+import { useTimer } from './use-timer';
 
 beforeAll(() => {
     jest.useFakeTimers('modern');
   },
 );
 
-const testCountsStartingWithCurrentSeconds = (startSeconds: number, times: number) => {
+const testHookCountsStartingWithCurrentSeconds = (result: RenderResult<number>, startSeconds: number, times: number) => {
   let currentSeconds = startSeconds;
 
   while (currentSeconds < startSeconds + times) {
     act(() => {
       jest.advanceTimersByTime(1001);
     });
-    expect(screen.getByText(`Starting with ${startSeconds} seconds`)).toBeInTheDocument();
-    expect(screen.getByText(`Currently ${++currentSeconds} seconds`)).toBeInTheDocument();
+    expect(result.current).toEqual(++currentSeconds);
   }
 };
 
-test('starts with 0 seconds and counts every second', () => {
-  render(<TimerWithHook/>);
+test('starts with initialized number of seconds', () => {
+  const { result } = renderHook(() => useTimer(1));
 
-  expect(screen.getByText('Starting with 0 seconds')).toBeInTheDocument();
-  expect(screen.getByText('Currently 0 seconds')).toBeInTheDocument();
-
-  testCountsStartingWithCurrentSeconds(0, 10);
+  expect(result.current).toBe(1);
 });
-
 
 test('starts with the initialized number of seconds and counts every second', () => {
-  render(<TimerWithHook startSeconds={5}/>);
+  const { result } = renderHook(() => useTimer(5));
 
-  expect(screen.getByText('Starting with 5 seconds')).toBeInTheDocument();
-  expect(screen.getByText('Currently 5 seconds')).toBeInTheDocument();
-
-  testCountsStartingWithCurrentSeconds(5, 10);
+  testHookCountsStartingWithCurrentSeconds(result, 5, 10);
 });
 
+test('resets the timer when changing the start seconds', () => {
+  const { result, rerender } = renderHook((initialSeconds) => useTimer(initialSeconds), {initialProps: 5});
 
-test('resets the counter when changing the start seconds property', () => {
-  const { rerender } = render(<TimerWithHook startSeconds={5}/>);
 
-  expect(screen.getByText('Starting with 5 seconds')).toBeInTheDocument();
-  expect(screen.getByText('Currently 5 seconds')).toBeInTheDocument();
+  expect(result.current).toBe(5);
 
-  testCountsStartingWithCurrentSeconds(5, 5);
+  testHookCountsStartingWithCurrentSeconds(result, 5, 5);
 
-  rerender(<TimerWithHook startSeconds={0}/>);
+  rerender(2);
 
-  expect(screen.getByText('Starting with 0 seconds')).toBeInTheDocument();
-  expect(screen.getByText('Currently 0 seconds')).toBeInTheDocument();
+  expect(result.current).toBe(2);
 
-  testCountsStartingWithCurrentSeconds(0, 5);
+  testHookCountsStartingWithCurrentSeconds(result, 2, 10);
 });
